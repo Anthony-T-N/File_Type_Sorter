@@ -6,7 +6,7 @@ using System.Collections.Generic;
  * 1) Select specific folder  
  * 2) Read through and extract all extensions of files of the folder and add to a list.
  * 3) Create new folders based on said extensions.
- * 4) Move files to allocated folders based on extensions.
+ * 4) Cut/Move files to allocated folders based on extensions.
  */
 
 namespace File_Type_Sorter
