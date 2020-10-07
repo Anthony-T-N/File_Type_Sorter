@@ -17,6 +17,7 @@ namespace File_Type_Sorter
         {
             Program main_program = new Program();
             main_program.read_dir_files();
+            main_program.create_ext_folders();
      
         }
         public void read_dir_files()
@@ -24,13 +25,22 @@ namespace File_Type_Sorter
             // Get the current directory.
             string[] files = Directory.GetFiles(System.AppDomain.CurrentDomain.BaseDirectory);
             List<string> file_list = new List<string>();
+            List<string> extension_list = new List<string>();
             foreach (string file in files)
             {
-                Console.WriteLine(Path.GetFileName(file));
-                file_list.Add(file);
-                string extension = file.Substring(file.LastIndexOf("."), file.Length - 1);
+                string filename = Path.GetFileName(file);
+                Console.WriteLine(filename);
+                file_list.Add(filename);
+                string extension = filename.Substring(filename.LastIndexOf("."), filename.Length - filename.LastIndexOf("."));
+                extension_list.Add(extension);
                 Console.WriteLine(extension);
             }
+        }
+        public void create_ext_folders()
+        {
+            string pathString = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "SubFolder");
+            System.IO.Directory.CreateDirectory(pathString);
+            Console.WriteLine("DONE");
         }
     }
 }
