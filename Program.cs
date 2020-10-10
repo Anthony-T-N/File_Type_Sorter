@@ -20,16 +20,21 @@ namespace File_Type_Sorter
         static void Main(string[] args)
         {
             Program main_program = new Program();
+            Console.WriteLine("=========================================================================");
+            Console.WriteLine("Reading directory files:");
             main_program.read_dir_files();
+            Console.WriteLine("=========================================================================");
+            Console.WriteLine("Creating folders based on extensions:");
             main_program.create_ext_folders();
-            main_program.move_files();
-     
+            Console.WriteLine("=========================================================================");
+            Console.WriteLine("Moving files to allocated folders:");
+            //main_program.move_files();
+            Console.WriteLine("=========================================================================");
         }
         public void read_dir_files()
         {
             // Get the current directory.
             string[] files = Directory.GetFiles(target_location);
-            
             foreach (string file in files)
             {
                 file_path_list.Add(file);
@@ -39,8 +44,8 @@ namespace File_Type_Sorter
                 if (!extension_list.Contains(extension))
                 {
                     extension_list.Add(extension);
+                    Console.WriteLine(extension);
                 }
-                Console.WriteLine(extension);
             }
         }
         public void create_ext_folders()
@@ -54,11 +59,12 @@ namespace File_Type_Sorter
             else
             {
                 Console.WriteLine("[-] File \"{0}\" already exists.", current_path_string);
+                Console.WriteLine("[=] Exiting application");
                 return;
             }
             for (int i = 0; i <= extension_list.Count - 1; i++)
             {
-                System.Console.WriteLine(System.IO.Path.Combine(current_path_string, extension_list[i]));
+                Console.WriteLine(System.IO.Path.Combine(current_path_string, extension_list[i]));
                 System.IO.Directory.CreateDirectory(System.IO.Path.Combine(current_path_string, extension_list[i]));
             }
         }
