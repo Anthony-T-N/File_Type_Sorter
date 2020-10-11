@@ -23,12 +23,15 @@ namespace File_Type_Sorter
             Console.WriteLine("=========================================================================");
             Console.WriteLine("Reading directory files:");
             main_program.read_dir_files();
+            Console.WriteLine(" ");
             Console.WriteLine("=========================================================================");
             Console.WriteLine("Creating folders based on extensions:");
             main_program.create_ext_folders();
+            Console.WriteLine(" ");
             Console.WriteLine("=========================================================================");
             Console.WriteLine("Moving files to allocated folders:");
-            //main_program.move_files();
+            main_program.move_files();
+            Console.WriteLine(" ");
             Console.WriteLine("=========================================================================");
         }
         public void read_dir_files()
@@ -58,7 +61,7 @@ namespace File_Type_Sorter
             }
             else
             {
-                Console.WriteLine("[-] File \"{0}\" already exists.", current_path_string);
+                Console.WriteLine("[-] Folder \"{0}\" already exists.", current_path_string);
                 Console.WriteLine("[=] Exiting application");
                 return;
             }
@@ -75,9 +78,8 @@ namespace File_Type_Sorter
                 string filename = Path.GetFileName(file_path_list[i]);
                 Console.WriteLine(filename);
                 string extension = filename.Substring(filename.LastIndexOf("."), filename.Length - filename.LastIndexOf("."));
-                Console.WriteLine(extension);
                 File.Move(file_path_list[i], target_location + @"Sorted_Extension_Folder\" + extension + @"\" + filename);
-                Console.WriteLine("[+] {0} was moved to {1}.", file_path_list[i], target_location + @"Sorted_Extension_Folder\" + extension);
+                Console.WriteLine("[+] {0} \n was moved to \n {1}. \n", file_path_list[i], target_location + @"Sorted_Extension_Folder\" + extension);
             }
         }
     }
