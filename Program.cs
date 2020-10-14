@@ -16,11 +16,15 @@ namespace File_Type_Sorter
         private List<string> extension_list = new List<string>();
         private List<string> file_path_list = new List<string>();
         //string target_location = System.AppDomain.CurrentDomain.BaseDirectory;
-        string target_location = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Target_Test_Folder");
+        string target_location = Directory.GetCurrentDirectory();
         //string target_location = @"C:\Users\Anthony\source\repos\File_Type_Sorter\bin\Debug\netcoreapp3.1\Target_Test_Folder\";
         static void Main(string[] args)
         {
             Program main_program = new Program();
+
+            Console.WriteLine("=========================================================================");
+            Console.WriteLine("Target Directory: " + Directory.GetCurrentDirectory());
+            Console.WriteLine("Target Directory: " + main_program.target_location);
             Console.WriteLine("=========================================================================");
             Console.WriteLine("Reading directory files:");
             main_program.read_dir_files();
@@ -77,12 +81,16 @@ namespace File_Type_Sorter
             for (int i = 0; i <= file_path_list.Count - 1; i++)
             {
                 string filename = Path.GetFileName(file_path_list[i]);
-                Console.WriteLine(filename);
+                Console.WriteLine("Filename: " + filename);
                 string extension = filename.Substring(filename.LastIndexOf("."), filename.Length - filename.LastIndexOf("."));
-                Console.WriteLine(file_path_list[i]);
                 Console.WriteLine(target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
-                File.Move(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
-                Console.WriteLine("[+] {0} \n was moved to \n {1}. \n", file_path_list[i], target_location + @"Sorted_Extension_Folder\" + extension);
+                //File.Move(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
+                //Console.WriteLine("[+] {0} \n was moved to \n {1}. \n", file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension);
+                Console.WriteLine(" ");
+                Console.WriteLine(file_path_list[i]);
+                Console.WriteLine("was moved to");
+                Console.WriteLine(target_location + @"\Sorted_Extension_Folder\" + extension);
+                Console.WriteLine(" ");
             }
         }
     }
