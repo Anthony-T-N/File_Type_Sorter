@@ -16,15 +16,33 @@ namespace File_Type_Sorter
         private List<string> extension_list = new List<string>();
         private List<string> file_path_list = new List<string>();
         //string target_location = System.AppDomain.CurrentDomain.BaseDirectory;
-        string target_location = Directory.GetCurrentDirectory();
+        string target_location = Directory.GetCurrentDirectory() + @"\Target_Test_Folder";
         //string target_location = @"C:\Users\Anthony\source\repos\File_Type_Sorter\bin\Debug\netcoreapp3.1\Target_Test_Folder\";
         static void Main(string[] args)
         {
             Program main_program = new Program();
-
             Console.WriteLine("=========================================================================");
-            Console.WriteLine("Target Directory: " + Directory.GetCurrentDirectory());
             Console.WriteLine("Target Directory: " + main_program.target_location);
+            Console.WriteLine("Confirm to move files within the target location [Y/N]: ");
+            Console.WriteLine(main_program.target_location);
+            string directory_confirmation = Console.ReadLine();
+            if (directory_confirmation == "N")
+            {
+                while (true)
+                {
+                    Console.WriteLine("Please enter new target Directory: ");
+                    main_program.target_location = Console.ReadLine();
+                    if (Directory.Exists(main_program.target_location) == false)
+                    {
+                        Console.WriteLine("[-] Invalid directory");
+                    }
+                    else
+                    {
+                        Console.WriteLine("[+] Valid directory");
+                        break;
+                    }
+                }
+            }
             Console.WriteLine("=========================================================================");
             Console.WriteLine("Reading directory files:");
             main_program.read_dir_files();
@@ -67,7 +85,7 @@ namespace File_Type_Sorter
             else
             {
                 Console.WriteLine("[-] Folder \"{0}\" already exists.", current_path_string);
-                Console.WriteLine("[=] Exiting application");
+                Console.WriteLine("Exiting application");
                 return;
             }
             for (int i = 0; i <= extension_list.Count - 1; i++)
