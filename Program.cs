@@ -23,24 +23,49 @@ namespace File_Type_Sorter
             Program main_program = new Program();
             Console.WriteLine("=========================================================================");
             Console.WriteLine("Target Directory: " + main_program.target_location);
-            Console.WriteLine("Confirm to move files within the target location [Y/N]: ");
-            Console.WriteLine(main_program.target_location);
-            string directory_confirmation = Console.ReadLine();
-            if (directory_confirmation == "N")
+            Console.WriteLine(" ");
+            bool user_input_flag = false;
+            while (true)
             {
-                while (true)
+                if (user_input_flag == true)
                 {
-                    Console.WriteLine("Please enter new target Directory: ");
-                    main_program.target_location = Console.ReadLine();
-                    if (Directory.Exists(main_program.target_location) == false)
+                    break;
+                }
+                Console.WriteLine("Confirm to move files within the target location [Y/N]: ");
+                Console.WriteLine(main_program.target_location);
+                string directory_confirmation = Console.ReadLine();
+                if (directory_confirmation.ToLower() == "n")
+                {
+                    while (true)
                     {
-                        Console.WriteLine("[-] Invalid directory");
+                        Console.WriteLine("Please enter new target Directory: ");
+                        main_program.target_location = Console.ReadLine();
+                        Console.WriteLine(main_program.target_location.EndsWith(@"\"));
+                        if (main_program.target_location.EndsWith(@"\"))
+                        {
+                            main_program.target_location = main_program.target_location.Substring(0, main_program.target_location.Length - 1);
+                            Console.WriteLine(@"[=] Removed \ from end of string");
+                        }
+                        if (Directory.Exists(main_program.target_location) == false)
+                        {
+                            Console.WriteLine("[-] Invalid directory");
+                        }
+                        else
+                        {
+                            Console.WriteLine("[+] Valid directory");
+                            user_input_flag = true;
+                            break;
+                        }
                     }
-                    else
-                    {
-                        Console.WriteLine("[+] Valid directory");
-                        break;
-                    }
+                }
+                else if (directory_confirmation.ToLower() == "y")
+                {
+                    user_input_flag = true;
+                }
+                else
+                {
+                    Console.WriteLine("[-] Invalid key");
+                    Console.WriteLine("Please try again");
                 }
             }
             Console.WriteLine("=========================================================================");
@@ -102,7 +127,7 @@ namespace File_Type_Sorter
                 Console.WriteLine("Filename: " + filename);
                 string extension = filename.Substring(filename.LastIndexOf("."), filename.Length - filename.LastIndexOf("."));
                 Console.WriteLine(target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
-                //File.Move(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
+                File.Move(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
                 //Console.WriteLine("[+] {0} \n was moved to \n {1}. \n", file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension);
                 Console.WriteLine(" ");
                 Console.WriteLine(file_path_list[i]);
