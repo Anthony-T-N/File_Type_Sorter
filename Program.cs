@@ -21,9 +21,15 @@ namespace File_Type_Sorter
         static void Main(string[] args)
         {
             Program main_program = new Program();
+
             Console.WriteLine("=========================================================================");
-            Console.WriteLine("Target Directory: " + main_program.target_location);
-            Console.WriteLine(" ");
+            Console.WriteLine("Welcome to the 'File Type Sorter'");
+            Console.WriteLine("How to use: ");
+            Console.WriteLine("1) Ensure the executable displays the directory (Target Directory) that you wish for files to be sorted.");
+            Console.WriteLine("2) The program will read through all the files located in the target directory and compile a list.");
+            Console.WriteLine("3) A new folder will be created containing every folder named after all the file extensions read from the previous sessesion.");
+            Console.WriteLine("4) Files from the current directory will move to the newly created folder and be sorted accordingly.");
+            Console.WriteLine("=========================================================================");
             bool user_input_flag = false;
             while (true)
             {
@@ -31,8 +37,9 @@ namespace File_Type_Sorter
                 {
                     break;
                 }
+                Console.WriteLine("Target Directory: " + main_program.target_location);
+                Console.WriteLine(" ");
                 Console.WriteLine("Confirm to move files within the target location [Y/N]: ");
-                Console.WriteLine(main_program.target_location);
                 string directory_confirmation = Console.ReadLine();
                 if (directory_confirmation.ToLower() == "n")
                 {
@@ -40,7 +47,6 @@ namespace File_Type_Sorter
                     {
                         Console.WriteLine("Please enter new target Directory: ");
                         main_program.target_location = Console.ReadLine();
-                        Console.WriteLine(main_program.target_location.EndsWith(@"\"));
                         if (main_program.target_location.EndsWith(@"\"))
                         {
                             main_program.target_location = main_program.target_location.Substring(0, main_program.target_location.Length - 1);
@@ -84,7 +90,7 @@ namespace File_Type_Sorter
         }
         public void read_dir_files()
         {
-            // Get the current directory.
+            Console.WriteLine(target_location);
             string[] files = Directory.GetFiles(target_location);
             foreach (string file in files)
             {
@@ -95,7 +101,7 @@ namespace File_Type_Sorter
                 if (!extension_list.Contains(extension))
                 {
                     extension_list.Add(extension);
-                    Console.WriteLine(extension);
+                    Console.WriteLine("[+] " + extension);
                 }
             }
         }
@@ -127,7 +133,7 @@ namespace File_Type_Sorter
                 Console.WriteLine("Filename: " + filename);
                 string extension = filename.Substring(filename.LastIndexOf("."), filename.Length - filename.LastIndexOf("."));
                 Console.WriteLine(target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
-                File.Move(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
+                //File.Move(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
                 //Console.WriteLine("[+] {0} \n was moved to \n {1}. \n", file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension);
                 Console.WriteLine(" ");
                 Console.WriteLine(file_path_list[i]);
@@ -138,3 +144,4 @@ namespace File_Type_Sorter
         }
     }
 }
+
