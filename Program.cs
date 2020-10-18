@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-/* Approach
+/* Design Approach
  * 1) Select specific folder  
  * 2) Read through and extract all extensions of files of the folder and add to a list.
  * 3) Create new folders based on said extensions.
@@ -74,6 +74,25 @@ namespace File_Type_Sorter
                     Console.WriteLine("Please try again");
                 }
             }
+            while (true)
+            {
+                Console.WriteLine("Copy or Cut files to the destination folder ? [Copy / Cut]:");
+                string move_option = Console.ReadLine();
+                if (move_option.ToLower() == "copy")
+                {
+                    Console.WriteLine("[+] Valid option");
+                    break;
+                }
+                else if (move_option.ToLower() == "cut")
+                {
+                    Console.WriteLine("[+] Valid option");
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("[-] Invalid option. Please try again");
+                }
+            }
             Console.WriteLine("=========================================================================");
             Console.WriteLine("Reading directory files:");
             main_program.read_dir_files();
@@ -134,6 +153,7 @@ namespace File_Type_Sorter
                 string extension = filename.Substring(filename.LastIndexOf("."), filename.Length - filename.LastIndexOf("."));
                 Console.WriteLine(target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
                 //File.Move(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
+                //File.Copy(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
                 //Console.WriteLine("[+] {0} \n was moved to \n {1}. \n", file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension);
                 Console.WriteLine(" ");
                 Console.WriteLine(file_path_list[i]);
@@ -144,4 +164,3 @@ namespace File_Type_Sorter
         }
     }
 }
-
