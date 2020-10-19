@@ -15,6 +15,7 @@ namespace File_Type_Sorter
     {
         private List<string> extension_list = new List<string>();
         private List<string> file_path_list = new List<string>();
+        private string move_operation = "";
         //string target_location = System.AppDomain.CurrentDomain.BaseDirectory;
         string target_location = Directory.GetCurrentDirectory() + @"\Target_Test_Folder";
         //string target_location = @"C:\Users\Anthony\source\repos\File_Type_Sorter\bin\Debug\netcoreapp3.1\Target_Test_Folder\";
@@ -22,90 +23,96 @@ namespace File_Type_Sorter
         {
             Program main_program = new Program();
 
-            Console.WriteLine("=========================================================================");
-            Console.WriteLine("Welcome to the 'File Type Sorter'");
-            Console.WriteLine("How to use: ");
-            Console.WriteLine("1) Ensure the executable displays the directory (Target Directory) that you wish for files to be sorted.");
-            Console.WriteLine("2) The program will read through all the files located in the target directory and compile a list.");
-            Console.WriteLine("3) A new folder will be created containing every folder named after all the file extensions read from the previous sessesion.");
-            Console.WriteLine("4) Files from the current directory will move to the newly created folder and be sorted accordingly.");
-            Console.WriteLine("=========================================================================");
-            bool user_input_flag = false;
-            while (true)
+            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
             {
-                if (user_input_flag == true)
+                Console.WriteLine("=========================================================================");
+                Console.WriteLine("Welcome to the 'File Type Sorter'");
+                Console.WriteLine("How to use: ");
+                Console.WriteLine("1) Ensure the executable displays the directory (Target Directory) that you wish for files to be sorted.");
+                Console.WriteLine("2) The program will read through all the files located in the target directory and compile a list.");
+                Console.WriteLine("3) A new folder will be created containing every folder named after all the file extensions read from the previous sessesion.");
+                Console.WriteLine("4) Files from the current directory will move to the newly created folder and be sorted accordingly.");
+                Console.WriteLine("=========================================================================");
+                bool user_input_flag = false;
+                while (true)
                 {
-                    break;
-                }
-                Console.WriteLine("Target Directory: " + main_program.target_location);
-                Console.WriteLine(" ");
-                Console.WriteLine("Confirm to move files within the target location [Y/N]: ");
-                string directory_confirmation = Console.ReadLine();
-                if (directory_confirmation.ToLower() == "n")
-                {
-                    while (true)
+                    if (user_input_flag == true)
                     {
-                        Console.WriteLine("Please enter new target Directory: ");
-                        main_program.target_location = Console.ReadLine();
-                        if (main_program.target_location.EndsWith(@"\"))
+                        break;
+                    }
+                    Console.WriteLine("Target Directory: " + main_program.target_location);
+                    Console.WriteLine(" ");
+                    Console.WriteLine("Confirm to move files within the target location [Y/N]: ");
+                    string directory_confirmation = Console.ReadLine();
+                    if (directory_confirmation.ToLower() == "n")
+                    {
+                        while (true)
                         {
-                            main_program.target_location = main_program.target_location.Substring(0, main_program.target_location.Length - 1);
-                            Console.WriteLine(@"[=] Removed \ from end of string");
-                        }
-                        if (Directory.Exists(main_program.target_location) == false)
-                        {
-                            Console.WriteLine("[-] Invalid directory");
-                        }
-                        else
-                        {
-                            Console.WriteLine("[+] Valid directory");
-                            user_input_flag = true;
-                            break;
+                            Console.WriteLine("Please enter new target Directory: ");
+                            main_program.target_location = Console.ReadLine();
+                            if (main_program.target_location.EndsWith(@"\"))
+                            {
+                                main_program.target_location = main_program.target_location.Substring(0, main_program.target_location.Length - 1);
+                                Console.WriteLine(@"[=] Removed \ from end of string");
+                            }
+                            if (Directory.Exists(main_program.target_location) == false)
+                            {
+                                Console.WriteLine("[-] Invalid directory");
+                            }
+                            else
+                            {
+                                Console.WriteLine("[+] Valid directory");
+                                user_input_flag = true;
+                                break;
+                            }
                         }
                     }
+                    else if (directory_confirmation.ToLower() == "y")
+                    {
+                        user_input_flag = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("[-] Invalid key");
+                        Console.WriteLine("Please try again");
+                    }
                 }
-                else if (directory_confirmation.ToLower() == "y")
+                while (true)
                 {
-                    user_input_flag = true;
+                    Console.WriteLine("Copy or Cut files to the destination folder ? [Copy / Cut]:");
+                    string move_option = Console.ReadLine();
+                    if (move_option.ToLower() == "copy")
+                    {
+                        Console.WriteLine("[+] Valid option");
+                        main_program.move_operation = "copy";
+                        break;
+                    }
+                    else if (move_option.ToLower() == "cut")
+                    {
+                        Console.WriteLine("[+] Valid option");
+                        main_program.move_operation = "cut";
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("[-] Invalid option. Please try again");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine("[-] Invalid key");
-                    Console.WriteLine("Please try again");
-                }
+                Console.WriteLine("=========================================================================");
+                Console.WriteLine("Reading directory files:");
+                main_program.read_dir_files();
+                Console.WriteLine(" ");
+                Console.WriteLine("=========================================================================");
+                Console.WriteLine("Creating folders based on extensions:");
+                main_program.create_ext_folders();
+                Console.WriteLine(" ");
+                Console.WriteLine("=========================================================================");
+                Console.WriteLine("Moving files to allocated folders:");
+                main_program.move_files();
+                Console.WriteLine(" ");
+                Console.WriteLine("=========================================================================");
             }
-            while (true)
-            {
-                Console.WriteLine("Copy or Cut files to the destination folder ? [Copy / Cut]:");
-                string move_option = Console.ReadLine();
-                if (move_option.ToLower() == "copy")
-                {
-                    Console.WriteLine("[+] Valid option");
-                    break;
-                }
-                else if (move_option.ToLower() == "cut")
-                {
-                    Console.WriteLine("[+] Valid option");
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("[-] Invalid option. Please try again");
-                }
-            }
-            Console.WriteLine("=========================================================================");
-            Console.WriteLine("Reading directory files:");
-            main_program.read_dir_files();
-            Console.WriteLine(" ");
-            Console.WriteLine("=========================================================================");
-            Console.WriteLine("Creating folders based on extensions:");
-            main_program.create_ext_folders();
-            Console.WriteLine(" ");
-            Console.WriteLine("=========================================================================");
-            Console.WriteLine("Moving files to allocated folders:");
-            main_program.move_files();
-            Console.WriteLine(" ");
-            Console.WriteLine("=========================================================================");
+            System.Environment.Exit(0);
         }
         public void read_dir_files()
         {
@@ -152,8 +159,14 @@ namespace File_Type_Sorter
                 Console.WriteLine("Filename: " + filename);
                 string extension = filename.Substring(filename.LastIndexOf("."), filename.Length - filename.LastIndexOf("."));
                 Console.WriteLine(target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
-                //File.Move(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
-                //File.Copy(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
+                if (move_operation == "copy")
+                {
+                    File.Copy(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
+                }
+                else if (move_operation == "cut")
+                {
+                    File.Move(file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension + @"\" + filename);
+                }
                 //Console.WriteLine("[+] {0} \n was moved to \n {1}. \n", file_path_list[i], target_location + @"\Sorted_Extension_Folder\" + extension);
                 Console.WriteLine(" ");
                 Console.WriteLine(file_path_list[i]);
@@ -164,3 +177,4 @@ namespace File_Type_Sorter
         }
     }
 }
+
