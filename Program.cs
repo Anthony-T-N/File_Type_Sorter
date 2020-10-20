@@ -177,4 +177,3 @@ namespace File_Type_Sorter
         }
     }
 }
-
