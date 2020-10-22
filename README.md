@@ -8,6 +8,7 @@
 
 Overview
 -
+A console application (using .NET Core) that creates folders based on existing files and their extension located at the target directory. Files are then allocated (Cut/Copy) to the appropriate created folders.
 
 <p align="center"> 
 <img src="/start_example.PNG">
