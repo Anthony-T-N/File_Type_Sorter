@@ -16,3 +16,5 @@ A console application (using .NET Core) that creates folders based on existing f
 
 Usage
 -
+- The default target directory will also be the one where the executable is located. Ensure that this is the desired directory or else change it.
+- As the user proceeds, an option will be provided to either copy or cut the "original" files.
